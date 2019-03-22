@@ -9,9 +9,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
@@ -23,14 +20,22 @@
         body { padding-bottom: 100px; }
         .level { display: flex; align-items: center; }
         .flex { flex: 1; }
+        .page-header { padding-bottom: 20px; margin-top: 60px; margin-bottom: 20px; border-bottom: 1px solid rgb(222, 226, 230); }
     </style>
 </head>
 <body>
     <div id="app">
         @include('layouts.nav')
+
         <main class="py-4">
             @yield('content')
         </main>
+
+        <flash message="{{ session('flash') }}"></flash>
+        {{-- <flash message="Temporary message"></flash> --}}
     </div>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
