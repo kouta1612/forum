@@ -1,18 +1,19 @@
-<reply :attributes="{{ $reply }}" inline-template v-cloak>
-    <div id="reply-{{ $reply->id }}" class="card my-3">
+<template>
+    <div :id="'reply-'+id" class="card my-3">
         <div class="card-header">
             <div class="level">
                 <h5 class="flex">
-                    <a href="{{ route('profile', $reply->owner) }}" class="flex">
-                        {{ $reply->owner->name }}
-                    </a> said {{ $reply->created_at->diffForHumans() }}...
+                    <a :href="'/profiles/'+data.owner.name"
+                      v-text="data.owner.name">
+                    </a> said {{ data.created_at }}...
                 </h5>
                 
-                @if (Auth::check())
+                <!--@if (Auth::check())
                     <div>
                         <favorite :reply="{{ $reply }}"></favorite>
                     </div>
                 @endif
+                -->
             </div>
         </div>
     
@@ -35,4 +36,42 @@
             </div>
         @endcan
     </div>
-</reply>
+
+</template>
+<script>
+import Favorite from "./Favorite.vue";
+
+export default {
+  props: ["data"],
+
+  components: { Favorite },
+
+  data() {
+    return {
+      editting: false,
+      id: this.data.id,
+      body: this.data.body
+    };
+  },
+
+  methods: {
+    update() {
+      axios.patch("/replies/" + this.data.id, {
+        body: this.body
+      });
+
+      this.editting = false;
+
+      flash("Updated!");
+    },
+
+    destroy() {
+      axios.delete("/replies/" + this.data.id);
+
+      $(this.$el).fadeOut(300, () => {
+        flash("Your reply has been deleted.");
+      });
+    }
+  }
+};
+</script>

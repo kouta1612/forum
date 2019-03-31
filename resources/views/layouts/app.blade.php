@@ -16,11 +16,16 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
     <style>
         body { padding-bottom: 100px; }
         .level { display: flex; align-items: center; }
         .flex { flex: 1; }
         .page-header { padding-bottom: 20px; margin-top: 60px; margin-bottom: 20px; border-bottom: 1px solid rgb(222, 226, 230); }
+        .mr-1 { margin-right: 1em !important; }
+        [v-cloak] { display: none; }
     </style>
 </head>
 <body>
@@ -32,7 +37,6 @@
         </main>
 
         <flash message="{{ session('flash') }}"></flash>
-        {{-- <flash message="Temporary message"></flash> --}}
     </div>
 
     <!-- Scripts -->
