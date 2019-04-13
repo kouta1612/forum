@@ -2,6 +2,8 @@
 import Replies from '../components/Replies.vue';
 
 export default {
-    components: { 'replies': Replies },
+    components: { 
+        Replies
+    },
 };
 </script>
