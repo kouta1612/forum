@@ -1938,6 +1938,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["data"],
@@ -20981,29 +20983,7 @@ var render = function() {
               )
             ])
           : _c("div", { domProps: { textContent: _vm._s(_vm.body) } })
-      ]),
-      _vm._v("@can('update', $reply)\n  "),
-      _c("div", { staticClass: "card-footer level" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success btn-xs mr-1",
-            on: {
-              click: function($event) {
-                _vm.editting = true
-              }
-            }
-          },
-          [_vm._v("Edit")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "btn btn-danger btn-xs", on: { click: _vm.destroy } },
-          [_vm._v("Delete")]
-        )
-      ]),
-      _vm._v("@endcan\n")
+      ])
     ]
   )
 }
