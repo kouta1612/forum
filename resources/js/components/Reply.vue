@@ -6,14 +6,11 @@
           <a :href="'/profiles/'+data.owner.name" v-text="data.owner.name"></a>
           said {{ data.created_at }}...
         </h5>
-
-        <!--         
-        @if (Auth::check())
-          <div>
-              <favorite :reply="{{ $reply }}"></favorite>
-          </div>
-        @endif
-        -->
+                
+        <div>
+            <favorite :reply="data"></favorite>
+        </div>
+       
       </div>
     </div>
 
@@ -67,9 +64,6 @@ export default {
       axios.delete("/replies/" + this.data.id);
 
       this.$emit("deleted", this.data.id);
-      // $(this.$el).fadeOut(300, () => {
-      //   flash("Your reply has been deleted.");
-      // });
     }
   }
 };
