@@ -6,11 +6,10 @@
           <a :href="'/profiles/'+data.owner.name" v-text="data.owner.name"></a>
           said {{ data.created_at }}...
         </h5>
-                
-        <div>
-            <favorite :reply="data"></favorite>
+
+        <div v-if="signedIn">
+          <favorite :reply="data"></favorite>
         </div>
-       
       </div>
     </div>
 
@@ -25,12 +24,11 @@
       </div>
       <div v-else v-text="body"></div>
     </div>
-    <!-- @can('update', $reply) -->
-    <div class="card-footer level">
+
+    <div class="card-footer level" v-if="canUpdate">
       <button class="btn btn-success btn-xs mr-1" @click="editting = true">Edit</button>
       <button class="btn btn-danger btn-xs" @click="destroy">Delete</button>
     </div>
-    <!-- @endcan -->
   </div>
 </template>
 <script>
@@ -47,6 +45,15 @@ export default {
       id: this.data.id,
       body: this.data.body
     };
+  },
+
+  computed: {
+    signedIn() {
+      return App.signedIn;
+    },
+    canUpdate() {
+      this.authorize(user => this.data.id == user.id);
+    }
   },
 
   methods: {
