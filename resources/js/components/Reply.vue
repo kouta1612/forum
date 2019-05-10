@@ -52,7 +52,7 @@ export default {
       return App.signedIn;
     },
     canUpdate() {
-      this.authorize(user => this.data.id == user.id);
+      return this.$authorize(user => this.data.user_id == user.id);
     }
   },
 

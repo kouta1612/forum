@@ -1,6 +1,10 @@
 window.Vue = require("vue");
 
+Vue.prototype.$authorize = function (handler) {
+    let user = window.App.user;
 
+    return user ? handler(user) : false;
+};
 
 try {
     window.Popper = require('popper.js').default;
