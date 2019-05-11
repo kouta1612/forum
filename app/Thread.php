@@ -16,7 +16,7 @@ class Thread extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('replyCount', function($builder) {
+        static::addGlobalScope('replyCount', function ($builder) {
             $builder->withCount('replies');
         });
 
@@ -47,7 +47,7 @@ class Thread extends Model
 
     public function addReply($reply)
     {
-        $this->replies()->create($reply);
+        return $this->replies()->create($reply);
     }
 
     public function scopeFilter($query, $filters)
