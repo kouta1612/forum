@@ -24,7 +24,6 @@
 
 <script>
 export default {
-  props: ["endpoint"],
   data() {
     return {
       body: ""
@@ -37,11 +36,13 @@ export default {
   },
   methods: {
     addReply() {
-      axios.post(this.endpoint, { body: this.body }).then(({ data }) => {
-        this.body = "";
-        flash("Your reply has been posted!");
-        this.$emit("created", data);
-      });
+      axios
+        .post(location.pathname + "/replies", { body: this.body })
+        .then(({ data }) => {
+          this.body = "";
+          flash("Your reply has been posted!");
+          this.$emit("created", data);
+        });
     }
   }
 };
