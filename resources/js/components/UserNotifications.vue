@@ -6,7 +6,7 @@
 
     <ul class="dropdown-menu">
       <li class="nav-item" v-for="notification in notifications" :key="notification.id">
-        <a class="dropdown-item" href="#" v-text="notification.data.message"></a>
+        <a class="dropdown-item" :href="notification.data.link" v-text="notification.data.message"></a>
       </li>
     </ul>
   </li>
