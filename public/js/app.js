@@ -2192,10 +2192,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      notifications: []
+      notifications: false
     };
   },
   created: function created() {
@@ -2204,6 +2209,11 @@ __webpack_require__.r(__webpack_exports__);
     axios.get("/profiles/" + window.App.user.name + "/notifications").then(function (response) {
       return _this.notifications = response.data;
     });
+  },
+  methods: {
+    markAsRead: function markAsRead(notification) {
+      axios.delete("/profiles/" + window.App.user.name + "/notifications/" + notification.id);
+    }
   }
 });
 
@@ -39101,7 +39111,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.notifications
+  return _vm.notifications.length
     ? _c("li", { staticClass: "nav-item dropdown" }, [
         _vm._m(0),
         _vm._v(" "),
@@ -39113,7 +39123,13 @@ var render = function() {
               _c("a", {
                 staticClass: "dropdown-item",
                 attrs: { href: notification.data.link },
-                domProps: { textContent: _vm._s(notification.data.message) }
+                domProps: { textContent: _vm._s(notification.data.message) },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.markAsRead(notification)
+                  }
+                }
               })
             ])
           }),
@@ -52005,8 +52021,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/kota.hagiwara/Desktop/forum/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/kota.hagiwara/Desktop/forum/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/kouta/workspace/laravel/forum/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/kouta/workspace/laravel/forum/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
