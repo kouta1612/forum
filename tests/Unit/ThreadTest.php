@@ -3,6 +3,8 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use App\Notifications\ThreadWasUpdated;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -16,14 +18,13 @@ class ThreadTest extends TestCase
     {
         parent::setUp();
 
-        $this->thread = factory('App\Thread')->create();
+        $this->thread = create('App\Thread');
     }
 
     /** @test */
     public function a_thread_can_make_a_string_path()
     {
-        $thread = create('App\Thread');
-        $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->id}", $thread->path());
+        $this->assertEquals("/threads/{$this->thread->channel->slug}/{$this->thread->id}", $this->thread->path());
     }
 
     /** @test */
@@ -50,11 +51,25 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
+    public function a_thread_notifies_all_registered_subscribers_when_a_reply_is_added()
+    {
+        Notification::fake();
+
+        $this->signIn()
+            ->thread
+            ->subscribe()
+            ->addReply([
+                'body' => 'foobar',
+                'user_id' => $this->thread->user_id
+            ]);
+
+        Notification::assertSentTo(auth()->user(), ThreadWasUpdated::class);
+    }
+
+    /** @test */
     public function a_thread_belongs_to_a_channel()
     {
-        $thread = create('App\Thread');
-
-        $this->assertInstanceOf('App\Channel', $thread->channel);
+        $this->assertInstanceOf('App\Channel', $this->thread->channel);
     }
 
     /** @test */
