@@ -7,6 +7,7 @@ use App\Thread;
 use App\Channel;
 use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
+use Carbon\Carbon;
 
 class ThreadsController extends Controller
 {
@@ -79,6 +80,10 @@ class ThreadsController extends Controller
      */
     public function show($channel, Thread $thread)
     {
+        if (auth()->check()) {
+            auth()->user()->read($thread);
+        }
+
         return view('threads.show', compact('thread'));
     }
 
