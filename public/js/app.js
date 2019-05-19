@@ -39124,7 +39124,6 @@ var render = function() {
                 domProps: { textContent: _vm._s(notification.data.message) },
                 on: {
                   click: function($event) {
-                    $event.preventDefault()
                     return _vm.markAsRead(notification)
                   }
                 }

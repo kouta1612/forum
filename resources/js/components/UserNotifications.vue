@@ -10,7 +10,7 @@
           class="dropdown-item"
           :href="notification.data.link"
           v-text="notification.data.message"
-          @click.prevent="markAsRead(notification)"
+          @click="markAsRead(notification)"
         ></a>
       </li>
     </ul>
