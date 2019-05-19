@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Thread;
 use App\Reply;
+use Illuminate\Support\Facades\Gate;
 
 class RepliesController extends Controller
 {
@@ -21,6 +22,7 @@ class RepliesController extends Controller
     public function store($channelId, Thread $thread)
     {
         try {
+            $this->authorize('create', Reply::class);
             $this->validate(request(), ['body' => 'required|spamfree']);
 
             $reply = $thread->addReply([
@@ -33,7 +35,6 @@ class RepliesController extends Controller
                 422
             );
         }
-
 
         return $reply->load('owner');
     }
