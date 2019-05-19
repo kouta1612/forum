@@ -22,7 +22,7 @@ class MentionUsersTest extends TestCase
         $thread = create('App\Thread');
 
         $reply = make('App\Reply', [
-            'body' => '@JaneDoe look at this and @FrankDoe.'
+            'body' => '@JaneDoe look at this and @whodoesnotexist.'
         ]);
 
         $this->postJson($thread->path() . '/replies', $reply->toArray());
