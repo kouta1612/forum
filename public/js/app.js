@@ -6707,7 +6707,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.alert-success {\n  position: fixed;\n  right: 25px;\n  bottom: 25px;\n}\n.alert-danger {\n  position: fixed;\n  right: 25px;\n  bottom: 25px;\n}\n", ""]);
+exports.push([module.i, "\n.alert-success {\n  position: fixed;\n  right: 25px;\n  bottom: 25px;\n}\n", ""]);
 
 // exports
 

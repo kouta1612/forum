@@ -45,9 +45,4 @@ export default {
   right: 25px;
   bottom: 25px;
 }
-.alert-danger {
-  position: fixed;
-  right: 25px;
-  bottom: 25px;
-}
 </style>
