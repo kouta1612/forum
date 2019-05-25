@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import 'jquery.caret';
-import 'at.js';
+import "jquery.caret";
+import "at.js";
 
 export default {
   data() {
@@ -38,17 +38,17 @@ export default {
     }
   },
   mounted() {
-    $('#body').atwho({
+    $("#body").atwho({
       at: "@",
       delay: 750,
       callbacks: {
         remoteFilter: function(query, callback) {
           $.getJSON("/api/users", { name: query }, function(usernames) {
-            callback(usernames)
+            callback(usernames);
           });
         }
       }
-    })
+    });
   },
   methods: {
     addReply() {

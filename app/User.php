@@ -69,4 +69,9 @@ class User extends Authenticatable
             \Carbon\Carbon::now()
         );
     }
+
+    public function avatar()
+    {
+        return $this->avatar_path ?: 'avatars/default.jpg';
+    }
 }
