@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Activity;
 
 class CreateThreadsTest extends TestCase
 {
@@ -13,18 +14,21 @@ class CreateThreadsTest extends TestCase
     /** @test */
     public function guest_may_not_create_threads()
     {
-        $this->expectException('Illuminate\Auth\AuthenticationException');
+        $this->withExceptionHandling();
 
-        $thread = make('App\Thread');
-        $this->post('/threads', $thread->toArray());
+        $this->get('/threads/create')
+            ->assertRedirect('/login');
+
+        $this->post('/threads')
+            ->assertRedirect('/login');
     }
 
     /** @test */
-    public function guest_can_not_see_create_thread_page()
+    public function authenticated_users_must_first_confirm_their_email_address_before_creating_threads()
     {
-        $this->expectException('Illuminate\Auth\AuthenticationException');
-
-        $this->get('/threads/create')->assertRedirect('/login');
+        $this->publishedThread()
+            ->assertRedirect('/threads')
+            ->assertSessionHas('flash', 'You must first confirm your email address');
     }
 
     /** @test */
@@ -35,6 +39,7 @@ class CreateThreadsTest extends TestCase
         $thread = make('App\Thread');
 
         $response = $this->post('/threads', $thread->toArray());
+
         $this->get($response->headers->get('location'))
             ->assertSee($thread->title)
             ->assertSee($thread->body);
@@ -43,41 +48,27 @@ class CreateThreadsTest extends TestCase
     /** @test */
     public function a_threads_require_a_title()
     {
-        $this->expectException('Illuminate\Validation\ValidationException');
-
-        $this->signIn();
-
-        $thread = make('App\Thread', ['title' => null]);
-
-        $this->post('/threads', $thread->toArray())->assertSessionHasErrors('title');
+        $this->publishedThread(['title' => null])
+            ->assertSessionHasErrors('title');
     }
 
     /** @test */
     public function a_threads_require_a_body()
     {
-        $this->expectException('Illuminate\Validation\ValidationException');
-
-        $this->signIn();
-
-        $thread = make('App\Thread', ['body' => null]);
-
-        $this->post('/threads', $thread->toArray())->assertSessionHasErrors('body');
+        $this->publishedThread(['body' => null])
+            ->assertSessionHasErrors('body');
     }
 
     /** @test */
     public function a_threads_require_a_valid_channel()
     {
-        $this->expectException('Illuminate\Validation\ValidationException');
-
         factory('App\Channel', 2)->create();
 
-        $this->signIn();
+        $this->publishedThread(['channel_id' => null])
+            ->assertSessionHasErrors('channel_id');
 
-        $thread1 = make('App\Thread', ['channel_id' => null]);
-        $thread2 = make('App\Thread', ['channel_id' => 2]);
-
-        $this->post('/threads', $thread1->toArray())->assertSessionHasErrors('channel_id');
-        $this->post('/threads', $thread2->toArray())->assertSessionHasErrors('channel_id');
+        $this->publishedThread(['channel_id' => 999])
+            ->assertSessionHasErrors('channel_id');
     }
 
     /** @test */
@@ -107,6 +98,15 @@ class CreateThreadsTest extends TestCase
 
         $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
-        $this->assertEquals(0, \App\Activity::count());
+        $this->assertEquals(0, Activity::count());
+    }
+
+    protected function publishedThread($overrides = [])
+    {
+        $this->withExceptionHandling()->signIn();
+
+        $thread = make('App\Thread', $overrides);
+
+        return $this->post('/threads', $thread->toArray());
     }
 }
