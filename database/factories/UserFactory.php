@@ -37,6 +37,7 @@ $factory->define(Thread::class, function (Faker $faker) {
             return factory('App\Channel')->create()->id;
         },
         'replies_count' => 0,
+        'visits' => 0,
         'title' => $faker->sentence,
         'body' => $faker->paragraph,
     ];
