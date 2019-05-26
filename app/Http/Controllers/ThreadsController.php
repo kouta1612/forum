@@ -7,6 +7,7 @@ use App\Channel;
 use App\Trending;
 use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
+use App\Visits;
 
 class ThreadsController extends Controller
 {
@@ -87,7 +88,7 @@ class ThreadsController extends Controller
         }
 
         $trending->push($thread);
-        $thread->recordVisit();
+        $thread->visits()->record();
 
         return view('threads.show', compact('thread'));
     }
