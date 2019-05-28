@@ -70,4 +70,16 @@ class RegisterController extends Controller
             'confirmation_token' => str_random(25)
         ]);
     }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        return redirect($this->redirectPath());
+    }
 }
