@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PleaseConfirmYourEmail;
 
 class RegisterController extends Controller
 {
@@ -80,6 +83,7 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
+        Mail::to($user)->send(new PleaseConfirmYourEmail($user));
         return redirect($this->redirectPath());
     }
 }

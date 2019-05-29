@@ -19,9 +19,14 @@ class RegistrationTest extends TestCase
     {
         Mail::fake();
 
-        event(new Registered(create('App\User')));
+        $this->post('/register', [
+            'name' => 'john',
+            'email' => 'john@gmail.com',
+            'password' => 'foobar',
+            'password_confirmation' => 'foobar'
+        ]);
 
-        Mail::assertSent(PleaseConfirmYourEmail::class);
+        Mail::assertQueued(PleaseConfirmYourEmail::class);
     }
 
     /** @test */
@@ -39,9 +44,9 @@ class RegistrationTest extends TestCase
         $this->assertFalse($user->confirmed);
         $this->assertNotNull($user->confirmation_token);
 
-        $response = $this->get('/register/confirm?token='.$user->confirmation_token);
-        $this->assertTrue($user->fresh()->confirmed);
+        $this->get('/register/confirm?token='.$user->confirmation_token)
+            ->assertRedirect('/threads');
 
-        $response->assertRedirect('/threads');
+        $this->assertTrue($user->fresh()->confirmed);
     }
 }

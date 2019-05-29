@@ -24,7 +24,7 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_users_must_first_confirm_their_email_address_before_creating_threads()
+    public function new_users_must_first_confirm_their_email_address_before_creating_threads()
     {
         $this->publishedThread()
             ->assertRedirect('/threads')
@@ -32,7 +32,7 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
-    public function an_authenticated_user_can_create_new_forum_threads()
+    public function a_user_can_create_new_forum_threads()
     {
         $this->signIn();
 
