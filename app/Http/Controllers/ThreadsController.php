@@ -7,7 +7,6 @@ use App\Channel;
 use App\Trending;
 use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
-use App\Visits;
 
 class ThreadsController extends Controller
 {
@@ -62,7 +61,6 @@ class ThreadsController extends Controller
             'body' => 'required|spamfree',
             'channel_id' => 'required|exists:channels,id'
         ]);
-
         $thread = Thread::create([
             'user_id' => auth()->id(),
             'channel_id' => request('channel_id'),
