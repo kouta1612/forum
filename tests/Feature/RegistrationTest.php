@@ -4,10 +4,8 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Auth\Events\Registered;
 use App\Mail\PleaseConfirmYourEmail;
 
 class RegistrationTest extends TestCase
@@ -32,6 +30,8 @@ class RegistrationTest extends TestCase
     /** @test */
     public function user_can_fully_confirm_their_email_address()
     {
+        Mail::fake();
+
         $this->post('/register', [
             'name' => 'john',
             'email' => 'john@gmail.com',
@@ -44,9 +44,17 @@ class RegistrationTest extends TestCase
         $this->assertFalse($user->confirmed);
         $this->assertNotNull($user->confirmation_token);
 
-        $this->get('/register/confirm?token='.$user->confirmation_token)
+        $this->get('/register/confirm?token=' . $user->confirmation_token)
             ->assertRedirect('/threads');
 
         $this->assertTrue($user->fresh()->confirmed);
+    }
+
+    /** @test */
+    public function confirming_an_invalid_token()
+    {
+        $this->get('/register/confirm?token=invalid')
+            ->assertRedirect('/threads')
+            ->assertSessionHas('flash', 'Unknown token.');
     }
 }
