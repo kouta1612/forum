@@ -87,13 +87,9 @@ class CreateThreadsTest extends TestCase
 
         $this->assertEquals($thread->fresh()->slug, 'foo-bar');
 
-        $this->post('/threads', $thread->toArray());
+        $thread = $this->postJson('/threads', $thread->toArray())->json();
 
-        $this->assertTrue(Thread::whereSlug('foo-bar-2')->exists());
-
-        $this->post('/threads', $thread->toArray());
-
-        $this->assertTrue(Thread::whereSlug('foo-bar-3')->exists());
+        $this->assertEquals("foo-bar-{$thread['id']}", $thread['slug']);
     }
 
     /** @test */
@@ -101,11 +97,11 @@ class CreateThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread', ['title' => 'Some Title 24', 'slug' => 'some-title-24']);
+        $thread = create('App\Thread', ['title' => 'Some Title 24']);
 
-        $this->post('/threads', $thread->toArray());
+        $thread = $this->postJson('/threads', $thread->toArray())->json();
 
-        $this->assertTrue(Thread::whereSlug('some-title-24-2')->exists());
+        $this->assertEquals("some-title-24-{$thread['id']}", $thread['slug']);
     }
 
     /** @test */
