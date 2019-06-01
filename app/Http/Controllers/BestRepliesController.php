@@ -9,6 +9,7 @@ class BestRepliesController extends Controller
 {
     public function store(Reply $reply)
     {
-        $reply->thread->update(['best_reply_id' => $reply->id]);
+        $this->authorize('update', $reply->thread);
+        $reply->thread->markBestReply($reply);
     }
 }
