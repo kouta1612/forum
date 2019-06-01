@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="signedIn">
+    <div v-if="$signedIn">
       <div class="form-group">
         <textarea
           name="body"
@@ -31,11 +31,6 @@ export default {
     return {
       body: ""
     };
-  },
-  computed: {
-    signedIn() {
-      return window.App.signedIn;
-    }
   },
   mounted() {
     $("#body").atwho({
