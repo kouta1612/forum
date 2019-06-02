@@ -27,6 +27,7 @@
     <style>
         body { padding-bottom: 100px; }
         .level { display: flex; align-items: center; }
+        .level-item { margin-right: 1em; }
         .flex { flex: 1; }
         .page-header { padding-bottom: 20px; margin-top: 60px; margin-bottom: 20px; border-bottom: 1px solid rgb(222, 226, 230); }
         .mr-1 { margin-right: 1em !important; }
