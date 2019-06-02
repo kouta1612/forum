@@ -8,7 +8,7 @@ export default {
 
   computed: {
     classes() {
-      return ["btn", this.active ? "btn-primary" : "btn-secondary"];
+      return ["btn", this.active ? "btn-primary" : "btn-light"];
     }
   },
 
