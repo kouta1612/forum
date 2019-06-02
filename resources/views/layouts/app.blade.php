@@ -33,6 +33,8 @@
         .ml-a { margin-left: auto; }
         [v-cloak] { display: none; }
     </style>
+
+    @yield('head')
 </head>
 <body>
     <div id="app">
