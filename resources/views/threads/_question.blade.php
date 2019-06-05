@@ -8,7 +8,8 @@
 
     <div class="card-body">
         <div class="form-group">
-            <textarea class="form-control" rows=10 v-model="form.body"></textarea>
+            <wysiwyg v-model="form.body"></wysiwyg>
+            {{-- <textarea class="form-control" rows=10 v-model="form.body"></textarea> --}}
         </div>
     </div>
 
@@ -41,7 +42,7 @@
         </div>
     </div>
 
-    <div class="card-body" v-text="body">
+    <div class="card-body" v-html="body">
         
     </div>
 
