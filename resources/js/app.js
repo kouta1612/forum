@@ -8,6 +8,10 @@ Vue.component('wysiwyg', require('./components/Wysiwyg.vue').default);
 
 Vue.component("threadView", require("./pages/Thread.vue").default);
 
+Vue.config.ignoredElements = [
+    'trix-editor'
+]
+
 const app = new Vue({
     el: "#app"
 });
