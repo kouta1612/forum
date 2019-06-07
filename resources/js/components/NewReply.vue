@@ -2,15 +2,12 @@
   <div>
     <div v-if="$signedIn">
       <div class="form-group">
-        <textarea
+        <wysiwyg
           name="body"
-          id="body"
-          class="form-control"
-          placeholder="have something to say?"
-          rows="5"
           v-model="body"
-          required
-        ></textarea>
+          placeholder="Have somthing to say?"
+          :shouldClear="completed"
+        ></wysiwyg>
       </div>
 
       <button type="submit" class="btn btn-primary" @click="addReply">POST</button>
@@ -29,7 +26,8 @@ import "at.js";
 export default {
   data() {
     return {
-      body: ""
+      body: "",
+      completed: false
     };
   },
   mounted() {
@@ -54,7 +52,10 @@ export default {
         })
         .then(({ data }) => {
           this.body = "";
+          this.completed = true;
+
           flash("Your reply has been posted!");
+
           this.$emit("created", data);
         });
     }

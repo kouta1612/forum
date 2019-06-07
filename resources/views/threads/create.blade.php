@@ -31,7 +31,6 @@
                         <div class="form-group">
                             <label for="title">Body:</label>
                             <wysiwyg name="body"><wysiwyg/>
-                            {{-- <textarea name="body" id="body" class="form-control" rows="8">{{ old('body') }}</textarea> --}}
                         </div>
 
                         <div class="form-group">
