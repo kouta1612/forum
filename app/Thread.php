@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Events\ThreadReceivedNewReply;
+use Stevebauman\Purify\Facades\Purify;
 
 class Thread extends Model
 {
@@ -120,5 +121,10 @@ class Thread extends Model
     public function markBestReply($reply)
     {
         $this->update(['best_reply_id' => $reply->id]);
+    }
+
+    public function getBodyAttribute($body)
+    {
+        return Purify::clean($body);
     }
 }

@@ -15,9 +15,12 @@
 
 Auth::routes();
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/', 'ThreadsController@index');
 Route::get('/threads', 'ThreadsController@index');
 Route::post('/threads', 'ThreadsController@store')->middleware('must-be-confirmed');
 Route::get('/threads/create', 'ThreadsController@create');

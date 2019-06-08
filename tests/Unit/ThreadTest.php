@@ -6,7 +6,6 @@ use Tests\TestCase;
 use App\Notifications\ThreadWasUpdated;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Redis;
 
 class ThreadTest extends TestCase
 {
@@ -124,5 +123,13 @@ class ThreadTest extends TestCase
 
             $this->assertFalse($thread->hasUpdatesFor($user));
         });
+    }
+
+    /** @test */
+    public function a_threads_body_is_sanitized_automatically()
+    {
+        $thread = make('App\Thread', ['body' => '<script>alert("gotcha")</script><p>this is ok</p>']);
+
+        $this->assertEquals("<p>this is ok</p>", $thread->body);
     }
 }
